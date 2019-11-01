@@ -14,4 +14,13 @@ public class Estacionamento {
     private Endereco endereco;
     @OneToMany(mappedBy = "estacionamento")
     private List<Regra> regras;
+
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    public List<Vaga> getVagas() { return vagas; }
+    public void setVagas(List<Vaga> vagas) { this.vagas = vagas; }
+    public Endereco getEndereco() { return endereco; }
+    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+    public List<Regra> getRegras() { return regras; }
+    public void setRegras(List<Regra> regras) { this.regras = regras; }
 }
