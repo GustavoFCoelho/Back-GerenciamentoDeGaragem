@@ -1,5 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,10 +12,12 @@ public class Regra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
+    @JsonIgnore
     private Estacionamento estacionamento;
     private BigDecimal valor;
     private int horas;
     @OneToMany(mappedBy = "regra")
+    @JsonIgnore
     private List<Vaga> vagas;
 
     public int getId() { return id; }

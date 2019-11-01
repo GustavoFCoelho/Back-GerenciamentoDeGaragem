@@ -1,9 +1,11 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Endereco {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -12,10 +14,15 @@ public class Endereco {
     private String locagradouro;
     @ManyToOne
     private Cidade cidade;
-    @ManyToOne
-    private Cliente cliente;
-    @OneToOne(mappedBy = "endereco")
-    private Estacionamento estacionamento;
+
+    public Endereco() {
+    }
+
+    public Endereco(String rua, String num, String locagradouro) {
+        this.rua = rua;
+        this.num = num;
+        this.locagradouro = locagradouro;
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -27,8 +34,4 @@ public class Endereco {
     public void setLocagradouro(String locagradouro) { this.locagradouro = locagradouro; }
     public Cidade getCidade() { return cidade; }
     public void setCidade(Cidade cidade) { this.cidade = cidade; }
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { this.cliente = cliente; }
-    public Estacionamento getEstacionamento() { return estacionamento; }
-    public void setEstacionamento(Estacionamento estacionamento) { this.estacionamento = estacionamento; }
 }

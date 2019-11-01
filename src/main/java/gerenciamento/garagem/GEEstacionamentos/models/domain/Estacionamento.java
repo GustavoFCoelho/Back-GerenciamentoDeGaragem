@@ -1,5 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,18 +11,26 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToMany(mappedBy = "estacionamento")
+    @JsonIgnore
     private List<Vaga> vagas;
     @OneToOne
-    private Endereco endereco;
+    private EnderecoEstacionamento endereco;
     @OneToMany(mappedBy = "estacionamento")
     private List<Regra> regras;
+
+    public Estacionamento() {
+    }
+
+    public Estacionamento(EnderecoEstacionamento endereco) {
+        this.endereco = endereco;
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public List<Vaga> getVagas() { return vagas; }
     public void setVagas(List<Vaga> vagas) { this.vagas = vagas; }
-    public Endereco getEndereco() { return endereco; }
-    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+    public EnderecoEstacionamento getEndereco() { return endereco; }
+    public void setEndereco(EnderecoEstacionamento endereco) { this.endereco = endereco; }
     public List<Regra> getRegras() { return regras; }
     public void setRegras(List<Regra> regras) { this.regras = regras; }
 }

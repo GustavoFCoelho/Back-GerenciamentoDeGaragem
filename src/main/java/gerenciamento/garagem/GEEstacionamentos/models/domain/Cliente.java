@@ -12,7 +12,7 @@ public class Cliente extends Pessoa {
     private LocalDateTime horaentrada;
     private LocalDateTime horasaida;
     @OneToMany(mappedBy = "cliente")
-    private List<Endereco> enderecos;
+    private List<EnderecoCliente> enderecos;
     @OneToMany(mappedBy = "dono")
     private List<Carro> carros;
 
@@ -22,8 +22,8 @@ public class Cliente extends Pessoa {
     public void setHoraentrada(LocalDateTime horaentrada) { this.horaentrada = horaentrada; }
     public LocalDateTime getHorasaida() { return horasaida; }
     public void setHorasaida(LocalDateTime horasaida) { this.horasaida = horasaida; }
-    public List<Endereco> getEnderecos() { return enderecos; }
-    public void setEnderecos(List<Endereco> enderecos) { this.enderecos = enderecos; }
+    public List<EnderecoCliente> getEnderecos() { return enderecos; }
+    public void setEnderecos(List<EnderecoCliente> enderecos) { this.enderecos = enderecos; }
     public List<Carro> getCarros() { return carros; }
     public void setCarros(List<Carro> carros) { this.carros = carros; }
 }

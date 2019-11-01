@@ -1,5 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,9 +12,31 @@ public class Carro {
     private String chassi;
     @ManyToOne
     private Cliente dono;
+    @JsonIgnore
     @OneToOne(mappedBy = "carro")
     private Vaga vaga;
     private String placa;
+
+    public Carro() {
+    }
+
+    public Carro(String chassi, Cliente dono, String placa) {
+        this.chassi = chassi;
+        this.dono = dono;
+        this.placa = placa;
+    }
+
+    public Carro(String chassi, Cliente dono, Vaga vaga, String placa) {
+        this.chassi = chassi;
+        this.dono = dono;
+        this.vaga = vaga;
+        this.placa = placa;
+    }
+
+    public Carro(String chassi, String placa) {
+        this.chassi = chassi;
+        this.placa = placa;
+    }
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
