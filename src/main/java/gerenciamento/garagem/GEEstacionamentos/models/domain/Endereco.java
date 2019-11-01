@@ -11,7 +11,7 @@ public abstract class Endereco implements Serializable {
     private int id;
     private String rua;
     private String num;
-    private String locagradouro;
+    private String logradouro;
     @ManyToOne
     private Cidade cidade;
 
@@ -21,7 +21,7 @@ public abstract class Endereco implements Serializable {
     public Endereco(String rua, String num, String locagradouro) {
         this.rua = rua;
         this.num = num;
-        this.locagradouro = locagradouro;
+        this.logradouro = locagradouro;
     }
 
     public int getId() { return id; }
@@ -30,8 +30,8 @@ public abstract class Endereco implements Serializable {
     public void setRua(String rua) { this.rua = rua; }
     public String getNum() { return num; }
     public void setNum(String num) { this.num = num; }
-    public String getLocagradouro() { return locagradouro; }
-    public void setLocagradouro(String locagradouro) { this.locagradouro = locagradouro; }
+    public String getLogradouro() { return logradouro; }
+    public void setLogradouro(String locagradouro) { this.logradouro = locagradouro; }
     public Cidade getCidade() { return cidade; }
     public void setCidade(Cidade cidade) { this.cidade = cidade; }
 }

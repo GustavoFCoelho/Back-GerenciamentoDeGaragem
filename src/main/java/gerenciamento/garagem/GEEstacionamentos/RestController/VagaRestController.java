@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("rest/vaga")
-public class VagaController {
+public class VagaRestController {
     @Autowired
     private VagaService vagaService;
 

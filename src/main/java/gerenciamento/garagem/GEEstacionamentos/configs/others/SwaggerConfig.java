@@ -14,11 +14,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket forumApi(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("gerenciamento.garagem.GEEstacionamentos"))
-                .paths(PathSelectors.ant("/**"))
-                .build();
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("gerenciamento.garagem.GEEstacionamentos")).paths(PathSelectors.ant("/**")).build();
     }
 
 }

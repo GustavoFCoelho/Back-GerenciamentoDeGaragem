@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EstacionamentoInterface extends JpaRepository<Estacionamento,Integer> {
     Estacionamento findByEndereco(EnderecoEstacionamento enderecoEstacionamento);
+
+    boolean existsByEndereco(EnderecoEstacionamento endereco);
 }
