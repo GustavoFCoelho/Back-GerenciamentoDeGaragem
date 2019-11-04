@@ -25,19 +25,19 @@ public class EstacionamentoService {
 
     public boolean save(CriaEstacionamentoDTO estacionamentoDTO) throws Exception {
         Estado estado = dtoToModelEstado(estacionamentoDTO);
-        if(estado.getId() == 0) {
+        if (estado.getId() == 0) {
             estado = saveEstado(estado);
         }
         Cidade cidade = dtoToModelCidade(estacionamentoDTO);
-        if(cidade.getId() == 0){
+        if (cidade.getId() == 0) {
             cidade.setEstado(estado);
             cidade = saveCidade(cidade);
         }
         EnderecoEstacionamento endereco = dtoToModelEndereco(estacionamentoDTO, cidade);
-        if(endereco.getId() == 0){
+        if (endereco.getId() == 0) {
             endereco = saveEndereco(endereco);
         }
-        if(estacionamentoInterface.existsByEndereco(endereco)){
+        if (estacionamentoInterface.existsByEndereco(endereco)) {
             throw new Exception("Já existe uma Garagem anexada a este endereço!");
         } else {
             Estacionamento estacionamento = new Estacionamento();
@@ -51,8 +51,16 @@ public class EstacionamentoService {
         return enderecoEstacionamentoInterface.save(endereco);
     }
 
+    private Cidade saveCidade(Cidade cidade) {
+        return cidadeInterface.save(cidade);
+    }
+
+    private Estado saveEstado(Estado estado) {
+        return estadoInterface.save(estado);
+    }
+
     private EnderecoEstacionamento dtoToModelEndereco(CriaEstacionamentoDTO estacionamentoDTO, Cidade cidade) {
-        if(enderecoEstacionamentoInterface.existsByRuaAndLogradouroAndNumAndCidade(estacionamentoDTO.getEnderecoRua(),
+        if (enderecoEstacionamentoInterface.existsByRuaAndLogradouroAndNumAndCidade(estacionamentoDTO.getEnderecoRua(),
                 estacionamentoDTO.getEnderecoLogradouro(), estacionamentoDTO.getEnderecoNum(), cidade)) {
             return enderecoEstacionamentoInterface.findByRuaAndLogradouroAndNumAndCidade(estacionamentoDTO.getEnderecoRua(),
                     estacionamentoDTO.getEnderecoLogradouro(), estacionamentoDTO.getEnderecoNum(), cidade);
@@ -66,12 +74,8 @@ public class EstacionamentoService {
         }
     }
 
-    private Cidade saveCidade(Cidade cidade) {
-        return cidadeInterface.save(cidade);
-    }
-
     private Cidade dtoToModelCidade(CriaEstacionamentoDTO estacionamentoDTO) {
-        if(cidadeInterface.existsByNomeAndEstado(estacionamentoDTO.getCidadeNome(), estadoInterface.findByNome(estacionamentoDTO.getEstadoNome()))){
+        if (cidadeInterface.existsByNomeAndEstado(estacionamentoDTO.getCidadeNome(), estadoInterface.findByNome(estacionamentoDTO.getEstadoNome()))) {
             return cidadeInterface.findByNomeAndEstado(estacionamentoDTO.getCidadeNome(), estadoInterface.findByNome(estacionamentoDTO.getEstadoNome()));
         } else {
             Cidade cidade = new Cidade();
@@ -80,14 +84,10 @@ public class EstacionamentoService {
         }
     }
 
-    private Estado saveEstado(Estado estado) {
-        return estadoInterface.save(estado);
-    }
-
     private Estado dtoToModelEstado(CriaEstacionamentoDTO estacionamentoDTO) {
-        if(estadoInterface.existsByNome(estacionamentoDTO.getEstadoNome())){
+        if (estadoInterface.existsByNome(estacionamentoDTO.getEstadoNome())) {
             return estadoInterface.findByNome(estacionamentoDTO.getEstadoNome());
-        } else{
+        } else {
             Estado estado = new Estado();
             estado.setNome(estacionamentoDTO.getEstadoNome());
             estado.setUF(estacionamentoDTO.getEstadoUF());
