@@ -42,6 +42,7 @@ public class EstacionamentoService {
         } else {
             Estacionamento estacionamento = new Estacionamento();
             estacionamento.setEndereco(endereco);
+            estacionamento.setNome(estacionamentoDTO.getEstacionamentoNome());
             estacionamentoInterface.save(estacionamento);
             return true;
         }

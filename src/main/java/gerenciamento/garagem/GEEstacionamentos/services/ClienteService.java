@@ -1,13 +1,11 @@
 package gerenciamento.garagem.GEEstacionamentos.services;
 
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Cidade;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Cliente;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.EnderecoEstacionamento;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Estado;
+import gerenciamento.garagem.GEEstacionamentos.models.domain.*;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaClienteDTO;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaEstacionamentoDTO;
 import gerenciamento.garagem.GEEstacionamentos.resources.CarroInterface;
 import gerenciamento.garagem.GEEstacionamentos.resources.ClienteInterface;
+import gerenciamento.garagem.GEEstacionamentos.resources.EnderecoClienteInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,8 @@ public class ClienteService {
     private ClienteInterface clienteInterface;
     @Autowired
     private EstacionamentoService estacionamentoService;
+    @Autowired
+    private EnderecoClienteInterface enderecoClienteInterface;
 
     public boolean salvar(CriaClienteDTO dto){
         Estado estado = estacionamentoService.dtoToModelEstado(new CriaEstacionamentoDTO(dto));
@@ -30,15 +30,36 @@ public class ClienteService {
             cidade.setEstado(estado);
             cidade = estacionamentoService.saveCidade(cidade);
         }
-        EnderecoEstacionamento endereco = estacionamentoService.dtoToModelEndereco(new CriaEstacionamentoDTO(dto), cidade);
-        if (endereco.getId() == 0) {
-            endereco = estacionamentoService.saveEndereco(endereco);
-        }
         Cliente cliente = dtoToModelCliente(dto);
         if(clienteInterface.existsByCpf(saveCliente(cliente))){
+            EnderecoCliente endereco = dtoToModelEndereco(dto, cidade);
+            if (endereco.getId() == 0) {
+                endereco.setCliente(cliente);
+                if(enderecoClienteInterface.existsById(endereco.getId())){
+                    saveEndereco(endereco);
+                }
+            }
             return true;
         }
         else return false;
+    }
+
+    private void saveEndereco(EnderecoCliente endereco) {
+        enderecoClienteInterface.save(endereco);
+    }
+
+    private EnderecoCliente dtoToModelEndereco(CriaClienteDTO dto, Cidade cidade) {
+        if(enderecoClienteInterface.existsByRuaAndNumAndLogradouroAndCidade(dto.getEnderecoRua(), dto.getEnderecoNum(),
+                                dto.getEnderecoLogradouro(), cidade)){
+            return enderecoClienteInterface.findByRuaAndNumAndLogradouroAndCidade(dto.getEnderecoRua(), dto.getEnderecoNum(),
+                    dto.getEnderecoLogradouro(), cidade);
+        }
+        EnderecoCliente enderecoCliente = new EnderecoCliente();
+        enderecoCliente.setCidade(cidade);
+        enderecoCliente.setNum(dto.getEnderecoNum());
+        enderecoCliente.setRua(dto.getEnderecoRua());
+        enderecoCliente.setLogradouro(dto.getEnderecoLogradouro());
+        return enderecoCliente;
     }
 
     private String saveCliente(Cliente cliente) {
@@ -54,6 +75,4 @@ public class ClienteService {
         cliente.setTipocliente(dto.getTipoCliente());
         return cliente;
     }
-
-
 }

@@ -10,6 +10,7 @@ public class Estacionamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String nome;
     @OneToMany(mappedBy = "estacionamento")
     @JsonIgnore
     private List<Vaga> vagas;
@@ -33,4 +34,6 @@ public class Estacionamento {
     public void setEndereco(EnderecoEstacionamento endereco) { this.endereco = endereco; }
     public List<Regra> getRegras() { return regras; }
     public void setRegras(List<Regra> regras) { this.regras = regras; }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 }
