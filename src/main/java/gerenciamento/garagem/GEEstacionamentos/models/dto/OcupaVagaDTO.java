@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class OcupaVagaDTO {
     private int idEnderecoEstacionamento;
+    private String cpfCliente;
     private String codigoVaga;
     private String chassiCarro;
     private LocalDateTime horaEntrada;
@@ -17,7 +18,8 @@ public class OcupaVagaDTO {
         this.chassiCarro = chassiCarro;
         this.horaEntrada = horaEntrada;
     }
-
+    public String getCpfCliente() { return cpfCliente; }
+    public void setCpfCliente(String cpfCliente) { this.cpfCliente = cpfCliente; }
     public int getIdEnderecoEstacionamento() { return idEnderecoEstacionamento; }
     public void setIdEnderecoEstacionamento(int idEnderecoEstacionamento) { this.idEnderecoEstacionamento = idEnderecoEstacionamento; }
     public String getCodigoVaga() { return codigoVaga; }

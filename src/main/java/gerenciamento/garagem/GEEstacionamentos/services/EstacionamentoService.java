@@ -47,19 +47,19 @@ public class EstacionamentoService {
         }
     }
 
-    private EnderecoEstacionamento saveEndereco(EnderecoEstacionamento endereco) {
+    EnderecoEstacionamento saveEndereco(EnderecoEstacionamento endereco) {
         return enderecoEstacionamentoInterface.save(endereco);
     }
 
-    private Cidade saveCidade(Cidade cidade) {
+    Cidade saveCidade(Cidade cidade) {
         return cidadeInterface.save(cidade);
     }
 
-    private Estado saveEstado(Estado estado) {
+    Estado saveEstado(Estado estado) {
         return estadoInterface.save(estado);
     }
 
-    private EnderecoEstacionamento dtoToModelEndereco(CriaEstacionamentoDTO estacionamentoDTO, Cidade cidade) {
+    public EnderecoEstacionamento dtoToModelEndereco(CriaEstacionamentoDTO estacionamentoDTO, Cidade cidade) {
         if (enderecoEstacionamentoInterface.existsByRuaAndLogradouroAndNumAndCidade(estacionamentoDTO.getEnderecoRua(),
                 estacionamentoDTO.getEnderecoLogradouro(), estacionamentoDTO.getEnderecoNum(), cidade)) {
             return enderecoEstacionamentoInterface.findByRuaAndLogradouroAndNumAndCidade(estacionamentoDTO.getEnderecoRua(),
@@ -74,7 +74,7 @@ public class EstacionamentoService {
         }
     }
 
-    private Cidade dtoToModelCidade(CriaEstacionamentoDTO estacionamentoDTO) {
+    public Cidade dtoToModelCidade(CriaEstacionamentoDTO estacionamentoDTO) {
         if (cidadeInterface.existsByNomeAndEstado(estacionamentoDTO.getCidadeNome(), estadoInterface.findByNome(estacionamentoDTO.getEstadoNome()))) {
             return cidadeInterface.findByNomeAndEstado(estacionamentoDTO.getCidadeNome(), estadoInterface.findByNome(estacionamentoDTO.getEstadoNome()));
         } else {
@@ -84,7 +84,7 @@ public class EstacionamentoService {
         }
     }
 
-    private Estado dtoToModelEstado(CriaEstacionamentoDTO estacionamentoDTO) {
+    public Estado dtoToModelEstado(CriaEstacionamentoDTO estacionamentoDTO) {
         if (estadoInterface.existsByNome(estacionamentoDTO.getEstadoNome())) {
             return estadoInterface.findByNome(estacionamentoDTO.getEstadoNome());
         } else {

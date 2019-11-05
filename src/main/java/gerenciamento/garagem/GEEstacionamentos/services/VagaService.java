@@ -1,9 +1,6 @@
 package gerenciamento.garagem.GEEstacionamentos.services;
 
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Carro;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.EnderecoEstacionamento;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Estacionamento;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Vaga;
+import gerenciamento.garagem.GEEstacionamentos.models.domain.*;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.OcupaVagaDTO;
 import gerenciamento.garagem.GEEstacionamentos.resources.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,8 @@ public class VagaService {
     private EstacionamentoInterface estInterface;
     @Autowired
     private EnderecoEstacionamentoInterface endEstInterface;
+    @Autowired
+    private ClienteInterface clienteInterface;
 
     @Transactional
     public boolean ocupaVaga(OcupaVagaDTO ocupaVagaDTO){
@@ -38,9 +37,16 @@ public class VagaService {
                     Optional<Carro> optC = crInterface.findByChassi(ocupaVagaDTO.getChassiCarro());
 
                     if (optC.isPresent()) {
-                        vaga.setCarro(optC.get());
-                        vaga.setStatus(true);
-                        return true;
+                        Optional<Cliente> optionalCliente = clienteInterface.findByCpf(ocupaVagaDTO.getCpfCliente());
+
+                        if(optionalCliente.isPresent()) {
+                            Cliente cliente = optionalCliente.get();
+                            cliente.setHoraentrada(ocupaVagaDTO.getHoraEntrada());
+                            vaga.setCarro(optC.get());
+                            vaga.setStatus(true);
+                            return true;
+                        } else
+                            throw new IllegalArgumentException("Cliente não encontrado!");
                     } else
                         throw new IllegalArgumentException("Carro não encontrado!");
                 } else
