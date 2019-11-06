@@ -15,8 +15,7 @@ public abstract class Endereco implements Serializable {
     @ManyToOne
     private Cidade cidade;
 
-    public Endereco() {
-    }
+    public Endereco() { }
 
     public Endereco(String rua, String num, String locagradouro) {
         this.rua = rua;

@@ -24,40 +24,43 @@ public class VagaService {
     private ClienteInterface clienteInterface;
 
     @Transactional
-    public boolean ocupaVaga(OcupaVagaDTO ocupaVagaDTO){
+    public boolean ocupaVaga(OcupaVagaDTO ocupaVagaDTO) {
+
         Optional<EnderecoEstacionamento> optE = endEstInterface.findById(ocupaVagaDTO.getIdEnderecoEstacionamento());
-        if(optE.isPresent()) {
-            Estacionamento estacionamento = estInterface.findByEndereco(optE.get());
-            Optional<Vaga> optionalVaga = vgInterface.findByEstacionamentoAndCodigo(estacionamento, ocupaVagaDTO.getCodigoVaga());
-
-            if(optionalVaga.isPresent()) {
-                Vaga vaga = optionalVaga.get();
-
-                if(!vaga.isStatus()) {
-                    Optional<Carro> optC = crInterface.findByChassi(ocupaVagaDTO.getChassiCarro());
-
-                    if (optC.isPresent()) {
-                        Optional<Cliente> optionalCliente = clienteInterface.findByCpf(ocupaVagaDTO.getCpfCliente());
-
-                        if(optionalCliente.isPresent()) {
-                            Cliente cliente = optionalCliente.get();
-                            cliente.setHoraentrada(ocupaVagaDTO.getHoraEntrada());
-                            vaga.setCarro(optC.get());
-                            vaga.setStatus(true);
-                            return true;
-                        } else
-                            throw new IllegalArgumentException("Cliente não encontrado!");
-                    } else
-                        throw new IllegalArgumentException("Carro não encontrado!");
-                } else
-                    return false;
-            } else
-                throw new IllegalArgumentException("O Código da vaga não foi encontrado");
-        } else
+        if (!optE.isPresent()) {
             throw new IllegalArgumentException("Garagem não encontrada!");
+        }
+        Estacionamento estacionamento = estInterface.findByEndereco(optE.get());
+        Optional<Vaga> optionalVaga = vgInterface.findByEstacionamentoAndCodigo(estacionamento, ocupaVagaDTO.getCodigoVaga());
+
+        if(!optionalVaga.isPresent()) {
+            throw new IllegalArgumentException("O Código da vaga não foi encontrado");
+        }
+
+        Vaga vaga  = optionalVaga.get();
+        if(vaga.isStatus()){
+            return false;
+        }
+
+        Optional<Cliente> optionalCliente = clienteInterface.findByCpf(ocupaVagaDTO.getCpfCliente());
+        if(!optionalCliente.isPresent()) {
+            throw new IllegalArgumentException("Cliente não encontrado!");
+        }
+
+        Cliente cliente = optionalCliente.get();
+        Optional<Carro> optC = crInterface.findByChassi(ocupaVagaDTO.getChassiCarro());
+        if(!optC.isPresent()){
+            throw new IllegalArgumentException("Carro não encontrado!");
+        }
+
+
+        cliente.setHoraentrada(ocupaVagaDTO.getHoraEntrada());
+        vaga.setCarro(optC.get());
+        vaga.setStatus(true);
+        return true;
     }
 
-    public List<Vaga> findAllByEstacionamento(int id){
+    public List<Vaga> findAllByEstacionamento(int id) {
         return vgInterface.findAllByEstacionamento(estInterface.findById(id).get());
     }
 }
