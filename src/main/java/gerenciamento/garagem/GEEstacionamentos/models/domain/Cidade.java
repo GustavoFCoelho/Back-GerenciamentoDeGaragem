@@ -1,5 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class Cidade {
     @ManyToOne
     private Estado estado;
     @OneToMany(mappedBy = "cidade")
+    @JsonIgnore
     private List<Endereco> enderecos;
 
     public int getId() { return id; }

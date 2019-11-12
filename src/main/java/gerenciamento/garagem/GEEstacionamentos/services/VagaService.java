@@ -2,6 +2,7 @@ package gerenciamento.garagem.GEEstacionamentos.services;
 
 import gerenciamento.garagem.GEEstacionamentos.models.domain.*;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.OcupaVagaDTO;
+import gerenciamento.garagem.GEEstacionamentos.models.dto.VagaDTO;
 import gerenciamento.garagem.GEEstacionamentos.resources.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,5 +63,22 @@ public class VagaService {
 
     public List<Vaga> findAllByEstacionamento(int id) {
         return vgInterface.findAllByEstacionamento(estInterface.findById(id).get());
+    }
+
+    public boolean criarvaga(VagaDTO dto){
+        Vaga vaga = dtoToModelVaga(dto);
+        vaga = vgInterface.save(vaga);
+        return vgInterface.existsById(vaga.getId());
+    }
+
+    private Vaga dtoToModelVaga(VagaDTO dto) {
+        Vaga vaga = new Vaga();
+        if(estInterface.findById(dto.getIdestacionamento()).isPresent()){
+            vaga.setEstacionamento(estInterface.findById(dto.getIdestacionamento()).get());
+            vaga.setCodigo(dto.getCodigovaga());
+            return vaga;
+        } else {
+            throw new IllegalArgumentException("Estacionamento não encontrado!");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.RestController;
 
 import gerenciamento.garagem.GEEstacionamentos.models.dto.OcupaVagaDTO;
+import gerenciamento.garagem.GEEstacionamentos.models.dto.VagaDTO;
 import gerenciamento.garagem.GEEstacionamentos.services.VagaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,13 @@ public class VagaRestController {
         return ResponseEntity.ok().body(vagaService.findAllByEstacionamento(id));
     }
 
+    @PostMapping
+    public ResponseEntity<?> salvar(@RequestBody VagaDTO vagaDTO){
+        try {
+            return ResponseEntity.ok().body(vagaService.criarvaga(vagaDTO));
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
