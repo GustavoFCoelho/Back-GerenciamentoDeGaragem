@@ -1,6 +1,7 @@
 package gerenciamento.garagem.GEEstacionamentos.services;
 
 import gerenciamento.garagem.GEEstacionamentos.models.domain.*;
+import gerenciamento.garagem.GEEstacionamentos.models.dto.CarroDTO;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaClienteDTO;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaEstacionamentoDTO;
 import gerenciamento.garagem.GEEstacionamentos.resources.CarroInterface;
@@ -8,6 +9,8 @@ import gerenciamento.garagem.GEEstacionamentos.resources.ClienteInterface;
 import gerenciamento.garagem.GEEstacionamentos.resources.EnderecoClienteInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -19,6 +22,25 @@ public class ClienteService {
     private EstacionamentoService estacionamentoService;
     @Autowired
     private EnderecoClienteInterface enderecoClienteInterface;
+
+    public boolean salvaCarro(CarroDTO dtoCarro){
+        Carro carro = dtoToModelCarro(dtoCarro);
+        carro = carroInterface.save(carro);
+        return carroInterface.existsById(carro.getId());
+    }
+
+    private Carro dtoToModelCarro(CarroDTO dtoCarro) {
+        Optional<Cliente> optC = clienteInterface.findByCpf(dtoCarro.getCpfDono());
+        if(optC.isPresent()){
+            Carro carro = new Carro();
+            carro.setDono(optC.get());
+            carro.setChassi(dtoCarro.getChassi());
+            carro.setPlaca(dtoCarro.getPlaca());
+            return carro;
+        } else {
+            throw new IllegalArgumentException("Cliente não encontrado!");
+        }
+    }
 
     public boolean salvar(CriaClienteDTO dto){
         Estado estado = estacionamentoService.dtoToModelEstado(new CriaEstacionamentoDTO(dto));

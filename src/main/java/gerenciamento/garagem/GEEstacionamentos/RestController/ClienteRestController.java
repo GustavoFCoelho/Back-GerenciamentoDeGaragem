@@ -1,5 +1,6 @@
 package gerenciamento.garagem.GEEstacionamentos.RestController;
 
+import gerenciamento.garagem.GEEstacionamentos.models.dto.CarroDTO;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaClienteDTO;
 import gerenciamento.garagem.GEEstacionamentos.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,21 @@ public class ClienteRestController {
 
     @PostMapping
     public ResponseEntity<?> index(@RequestBody CriaClienteDTO dto){
-        Boolean boleano = service.salvar(dto);
+        boolean boleano = service.salvar(dto);
         if(boleano){
-            return ResponseEntity.ok().body(boleano);
+            return ResponseEntity.ok().body(true);
         } else {
-            return ResponseEntity.badRequest().body(boleano);
+            return ResponseEntity.badRequest().body(false);
+        }
+    }
+
+    @PostMapping("/savecarro")
+    public ResponseEntity<?> index(@RequestBody CarroDTO dto){
+        boolean boleano = service.salvaCarro(dto);
+        if(boleano){
+            return ResponseEntity.ok().body(true);
+        } else {
+            return ResponseEntity.badRequest().body(false);
         }
     }
 }
