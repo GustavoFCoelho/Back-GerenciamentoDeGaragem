@@ -73,8 +73,8 @@ public class VagaService {
 
     private Vaga dtoToModelVaga(VagaDTO dto) {
         Vaga vaga = new Vaga();
-        if(estInterface.findById(dto.getIdestacionamento()).isPresent()){
-            vaga.setEstacionamento(estInterface.findById(dto.getIdestacionamento()).get());
+        if(estInterface.findByCodigoestacionamento(dto.getCodigoestacionamento()).isPresent()){
+            vaga.setEstacionamento(estInterface.findByCodigoestacionamento(dto.getCodigoestacionamento()).get());
             vaga.setCodigo(dto.getCodigovaga());
             return vaga;
         } else {

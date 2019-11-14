@@ -1,15 +1,15 @@
 package gerenciamento.garagem.GEEstacionamentos.models.dto;
 
 public class VagaDTO {
-    private int idestacionamento;
+    private String codigoestacionamento;
     private String codigovaga;
 
-    public int getIdestacionamento() {
-        return idestacionamento;
+    public String getCodigoestacionamento() {
+        return codigoestacionamento;
     }
 
-    public void setIdestacionamento(int idestacionamento) {
-        this.idestacionamento = idestacionamento;
+    public void setCodigoestacionamento(String codigoestacionamento) {
+        this.codigoestacionamento = codigoestacionamento;
     }
 
     public String getCodigovaga() {

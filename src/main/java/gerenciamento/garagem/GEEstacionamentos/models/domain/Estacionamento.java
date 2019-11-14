@@ -11,6 +11,8 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
+    @Column(unique = true)
+    private String codigo;
     @OneToMany(mappedBy = "estacionamento")
     @JsonIgnore
     private List<Vaga> vagas;
@@ -18,6 +20,8 @@ public class Estacionamento {
     private EnderecoEstacionamento endereco;
     @OneToMany(mappedBy = "estacionamento")
     private List<Regra> regras;
+    @OneToMany
+    private List<Funcionario> listafuncinario;
 
     public Estacionamento() {
     }
@@ -36,4 +40,6 @@ public class Estacionamento {
     public void setRegras(List<Regra> regras) { this.regras = regras; }
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
+    public List<Funcionario> getListafuncinario() { return listafuncinario; }
+    public void setListafuncinario(List<Funcionario> listafuncinario) { this.listafuncinario = listafuncinario; }
 }

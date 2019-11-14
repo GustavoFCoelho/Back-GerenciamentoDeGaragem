@@ -10,6 +10,8 @@ public class Funcionario extends Pessoa{
     private String senha;
     @ManyToOne
     private Autoridade autoridade;
+    @ManyToOne
+    private Estacionamento estacionamento;
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
@@ -19,4 +21,12 @@ public class Funcionario extends Pessoa{
     public void setSenha(String senha) { this.senha = senha; }
     public Autoridade getAutoridade() { return autoridade; }
     public void setAutoridade(Autoridade autoridade) { this.autoridade = autoridade; }
+
+    public Estacionamento getEstacionamento() {
+        return estacionamento;
+    }
+
+    public void setEstacionamento(Estacionamento estacionamento) {
+        this.estacionamento = estacionamento;
+    }
 }

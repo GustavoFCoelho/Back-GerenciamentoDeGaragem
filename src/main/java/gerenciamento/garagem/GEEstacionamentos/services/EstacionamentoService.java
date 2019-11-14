@@ -1,16 +1,14 @@
 package gerenciamento.garagem.GEEstacionamentos.services;
 
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Cidade;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.EnderecoEstacionamento;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Estacionamento;
-import gerenciamento.garagem.GEEstacionamentos.models.domain.Estado;
+import gerenciamento.garagem.GEEstacionamentos.models.domain.*;
 import gerenciamento.garagem.GEEstacionamentos.models.dto.CriaEstacionamentoDTO;
-import gerenciamento.garagem.GEEstacionamentos.resources.CidadeInterface;
-import gerenciamento.garagem.GEEstacionamentos.resources.EnderecoEstacionamentoInterface;
-import gerenciamento.garagem.GEEstacionamentos.resources.EstacionamentoInterface;
-import gerenciamento.garagem.GEEstacionamentos.resources.EstadoInterface;
+import gerenciamento.garagem.GEEstacionamentos.models.dto.NovoFuncionarioDTO;
+import gerenciamento.garagem.GEEstacionamentos.resources.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @Service
 public class EstacionamentoService {
@@ -22,6 +20,8 @@ public class EstacionamentoService {
     private EnderecoEstacionamentoInterface enderecoEstacionamentoInterface;
     @Autowired
     private EstadoInterface estadoInterface;
+    @Autowired
+    private FuncionarioInterface fcInterface;
 
     public boolean save(CriaEstacionamentoDTO estacionamentoDTO) throws Exception {
         Estado estado = dtoToModelEstado(estacionamentoDTO);
@@ -48,7 +48,7 @@ public class EstacionamentoService {
         }
     }
 
-    EnderecoEstacionamento saveEndereco(EnderecoEstacionamento endereco) {
+    public EnderecoEstacionamento saveEndereco(EnderecoEstacionamento endereco) {
         return enderecoEstacionamentoInterface.save(endereco);
     }
 
@@ -93,6 +93,28 @@ public class EstacionamentoService {
             estado.setNome(estacionamentoDTO.getEstadoNome());
             estado.setUF(estacionamentoDTO.getEstadoUF());
             return estado;
+        }
+    }
+
+    public boolean cadastraFuncionario(NovoFuncionarioDTO dto){
+        Funcionario funcio = dtoToModelFuncionario(dto);
+        funcio = fcInterface.save(funcio);
+        return fcInterface.existsById(funcio.getId());
+    }
+
+    private Funcionario dtoToModelFuncionario(NovoFuncionarioDTO dto) {
+        Optional<Funcionario> optF = fcInterface.findByCpf(dto.getCpf());
+        if(optF.isPresent()){
+            return optF.get();
+        } else{
+            Funcionario func = new Funcionario();
+            func.setNome(dto.getNome());
+            func.setDatanasc(dto.getDtnasc());
+            func.setCpf(dto.getCpf());
+            func.setEmail(dto.getEmail());
+            func.setSenha(dto.getSenha());
+            func.setEstacionamento(estacionamentoInterface.findByCodigoestacionamento(dto.getCodigoestacionamento()).get());
+            return func;
         }
     }
 }
