@@ -36,4 +36,12 @@ public class VagaRestController {
         }
     }
 
+    @PostMapping("/desocupaVaga")
+    public ResponseEntity<?> desocupaVaga(@RequestBody VagaDTO s) throws Exception {
+        if(!vagaService.desocupaVaga(s)){
+            return ResponseEntity.ok().body(true);
+        } else
+            return ResponseEntity.badRequest().body(false);
+    }
+
 }

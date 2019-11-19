@@ -57,7 +57,7 @@ public class ClienteService {
             EnderecoCliente endereco = dtoToModelEndereco(dto, cidade);
             if (endereco.getId() == 0) {
                 endereco.setCliente(cliente);
-                if(enderecoClienteInterface.existsById(endereco.getId())){
+                if(!enderecoClienteInterface.existsById(endereco.getId())){
                     saveEndereco(endereco);
                 }
             }

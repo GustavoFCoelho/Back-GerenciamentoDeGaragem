@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,5 +81,31 @@ public class VagaService {
         } else {
             throw new IllegalArgumentException("Estacionamento não encontrado!");
         }
+    }
+
+    @Transactional
+    public boolean desocupaVaga(VagaDTO vagaDTO) throws Exception {
+        if(!estInterface.findByCodigoestacionamento(vagaDTO.getCodigoestacionamento()).isPresent()) {
+            throw new IllegalArgumentException("Estacionamento não encontrado!");
+        }
+
+        Optional<Vaga> optV = vgInterface.findByEstacionamentoAndCodigo(estInterface.findByCodigoestacionamento(vagaDTO.getCodigoestacionamento()).get(), vagaDTO.getCodigovaga());
+
+        if (!optV.isPresent()){
+            throw new IllegalArgumentException("Vaga não encontrada!");
+        }
+
+        Vaga vaga = optV.get();
+
+        if(!vaga.isStatus()){
+            throw new Exception("A vaga não está ocupada");
+        }
+
+        Cliente cliente = vaga.getCarro().getDono();
+        cliente.setHorasaida(LocalDateTime.now());
+        cliente.setHoraentrada(null);
+        vaga.setCarro(null);
+        vaga.setStatus(false);
+        return vaga.isStatus();
     }
 }

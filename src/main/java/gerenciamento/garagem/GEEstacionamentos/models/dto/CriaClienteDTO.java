@@ -8,8 +8,6 @@ public class CriaClienteDTO {
     private String clienteNome;
     private String CPF;
     private LocalDate dtnasc;
-    private String carroChassi;
-    private String placa;
     private String estadoUF;
     private String estadoNome;
     private String cidadeNome;
@@ -24,10 +22,6 @@ public class CriaClienteDTO {
     public void setCPF(String CPF) { this.CPF = CPF; }
     public LocalDate getDtnasc() { return dtnasc; }
     public void setDtnasc(LocalDate dtnasc) { this.dtnasc = dtnasc; }
-    public String getCarroChassi() { return carroChassi; }
-    public void setCarroChassi(String carroChassi) { this.carroChassi = carroChassi; }
-    public String getPlaca() { return placa; }
-    public void setPlaca(String placa) { this.placa = placa; }
     public String getEstadoUF() { return estadoUF; }
     public void setEstadoUF(String estadoUF) { this.estadoUF = estadoUF; }
     public String getEstadoNome() { return estadoNome; }

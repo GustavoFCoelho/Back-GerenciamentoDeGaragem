@@ -8,6 +8,7 @@ public class CriaEstacionamentoDTO {
     private String enderecoNum;
     private String enderecoLogradouro;
     private String estacionamentoNome;
+    private String codigoestacionamento;
 
     public CriaEstacionamentoDTO() {
     }
@@ -35,4 +36,12 @@ public class CriaEstacionamentoDTO {
     public void setEnderecoLogradouro(String enderecoLogradouro) { this.enderecoLogradouro = enderecoLogradouro; }
     public String getEstacionamentoNome() { return estacionamentoNome; }
     public void setEstacionamentoNome(String estacionamentoNome) { this.estacionamentoNome = estacionamentoNome; }
+
+    public String getCodigoestacionamento() {
+        return codigoestacionamento;
+    }
+
+    public void setCodigoestacionamento(String codigoestacionamento) {
+        this.codigoestacionamento = codigoestacionamento;
+    }
 }

@@ -43,6 +43,7 @@ public class EstacionamentoService {
             Estacionamento estacionamento = new Estacionamento();
             estacionamento.setEndereco(endereco);
             estacionamento.setNome(estacionamentoDTO.getEstacionamentoNome());
+            estacionamento.setCodigoestacionamento(estacionamentoDTO.getCodigoestacionamento());
             estacionamentoInterface.save(estacionamento);
             return true;
         }

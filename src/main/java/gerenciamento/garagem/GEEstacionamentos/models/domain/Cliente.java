@@ -1,5 +1,6 @@
 package gerenciamento.garagem.GEEstacionamentos.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gerenciamento.garagem.GEEstacionamentos.models.enums.TipoCliente;
 
 import javax.persistence.*;
@@ -12,8 +13,10 @@ public class Cliente extends Pessoa {
     private LocalDateTime horaentrada;
     private LocalDateTime horasaida;
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<EnderecoCliente> enderecos;
     @OneToMany(mappedBy = "dono")
+    @JsonIgnore
     private List<Carro> carros;
 
     public TipoCliente getTipocliente() { return tipocliente; }

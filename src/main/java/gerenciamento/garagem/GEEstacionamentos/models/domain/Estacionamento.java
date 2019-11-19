@@ -12,7 +12,7 @@ public class Estacionamento {
     private int id;
     private String nome;
     @Column(unique = true)
-    private String codigo;
+    private String codigoestacionamento;
     @OneToMany(mappedBy = "estacionamento")
     @JsonIgnore
     private List<Vaga> vagas;
@@ -42,4 +42,12 @@ public class Estacionamento {
     public void setNome(String nome) { this.nome = nome; }
     public List<Funcionario> getListafuncinario() { return listafuncinario; }
     public void setListafuncinario(List<Funcionario> listafuncinario) { this.listafuncinario = listafuncinario; }
+
+    public String getCodigoestacionamento() {
+        return codigoestacionamento;
+    }
+
+    public void setCodigoestacionamento(String codigoestacionamento) {
+        this.codigoestacionamento = codigoestacionamento;
+    }
 }
