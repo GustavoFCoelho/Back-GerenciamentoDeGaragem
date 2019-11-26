@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AutoridadeInterface extends JpaRepository<Autoridade, Integer> {
+    boolean existsByNome(String nomeAutoridade);
 }
