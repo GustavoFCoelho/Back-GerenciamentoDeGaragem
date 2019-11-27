@@ -28,12 +28,7 @@ public class UserController {
     }
 
     @PostMapping("/autoridade")
-    public ResponseEntity<?> login (@RequestBody AutoridadeDTO dtoAutoridade) throws Exception {
-
-        if(userService.novaAutoridade(dtoAutoridade)){
-            return ResponseEntity.ok().body(true);
-        } else {
-            return ResponseEntity.badRequest().body(false);
-        }
+    public ResponseEntity<?> setaAuto (@RequestBody AutoridadeDTO dtoAutoridade) throws Exception {
+        return ResponseEntity.ok().body(true);
     }
 }
